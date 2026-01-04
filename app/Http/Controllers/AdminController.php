@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\CreateBookRequest;
+use App\Http\Resources\BookResource;
+use App\Models\Book;
 
 class AdminController extends Controller
 {
-    public function create() {
-    // Add new book to database
-        
+    public function create(CreateBookRequest $request) {
+       // Add new book to database
+        $books = Book::create($request->validated());
+        return new BookResource($books);
     }
 
     public function delete() {
-    // Delete a book record
+        // Delete a book record
     }
 
     public function issue() {
-    // Issue a fine for a loan with passed due data and update status
-    // includes two database operations.
+        // Issue a fine for a loan with passed due data and update status
+        // includes two database operations.
     }
 
     public function members() {

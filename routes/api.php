@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 // Routes for admin
 Route::prefix('admin')->controller(AdminController::class)->group(function () {
-    Route::post('/books', 'create');
+    Route::post('/books/add', 'create');
     Route::delete('/books/{book}', 'delete');
     Route::get('/members', 'members');
     Route::get('/members/{member}', 'member_info');
