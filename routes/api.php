@@ -6,7 +6,6 @@ use App\Http\Controllers\Api\FineController;
 use App\Http\Controllers\Api\LoanController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\AuthController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Routes for admin
