@@ -30,7 +30,7 @@ Route::get('/user/fines', [FineController::class, 'fines']);
 
 // Common routes
 Route::get('/books', [BookController::class, 'index']);
-Route::get('/books/{book}', [BookController::class, 'show']);
+Route::get('/book/{book}', [BookController::class, 'show']);
 Route::get('/books/search', [BookController::class, 'search']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
