@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')->controller(AdminController::class)->group(function () {
     Route::post('/books/add', 'create');
     Route::delete('/books/{book}', 'delete');
+    Route::put('/books/edit/{book:isbn}', 'update');
     Route::get('/members', 'members');
     Route::get('/members/{member}', 'member_info');
     Route::get('/loans', 'active_loans');
@@ -30,7 +31,7 @@ Route::get('/user/fines', [FineController::class, 'fines']);
 
 // Common routes
 Route::get('/books', [BookController::class, 'index']);
-Route::get('/book/{book}', [BookController::class, 'show']);
+Route::get('/book/{book}', [BookController::class, 'show']); 
 Route::get('/books/search', [BookController::class, 'search']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

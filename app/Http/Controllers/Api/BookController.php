@@ -26,11 +26,11 @@ class BookController extends Controller
     public function search(BookListRequest $request)
     {
         // Search by title, author or isbn
-        $request->validated();
-        $books = Book::when($request->search, function ($query) use ($request) {
-            return $query->where('title', 'LIKE', '%'.$request->search.'%')
-                ->orWhere('isbn', $request->search)
-                ->orWhere('author', 'LIKE', '%'.$request->search.'%');
+        $searchTerm = $request->validated()['search'] ?? null;
+        $books = Book::when($searchTerm, function ($query) use ($searchTerm) {
+            return $query->where('title', 'LIKE', '%'.$searchTerm.'%')
+                ->orWhere('isbn', $searchTerm)
+                ->orWhere('author', 'LIKE', '%'.$searchTerm.'%');
         })->paginate(10);
         return BookResource::collection($books);
     }
