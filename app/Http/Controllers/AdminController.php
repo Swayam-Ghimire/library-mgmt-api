@@ -31,7 +31,7 @@ class AdminController extends Controller
     public function update(Book $book, EditBookRequest $request) {
         // Edit the book record by isbn
         $validate = $request->validated();
-        $book->update($request->validated());
+        $book->update($validate);
         return new BookResource($book);
     }
 
