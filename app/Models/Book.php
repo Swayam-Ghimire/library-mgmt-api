@@ -11,6 +11,8 @@ class Book extends Model
     use HasUuids;
     protected $fillable = ['title', 'author', 'isbn', 'genre', 'description', 'quantity'];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function loans(): HasMany
     {
         return $this->hasMany(Loan::class);

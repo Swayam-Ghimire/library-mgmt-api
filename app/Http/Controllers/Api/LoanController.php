@@ -19,12 +19,13 @@ class LoanController extends Controller
     public function borrow(Book $book, Request $request)
     {
         // Borrow a book or Create loan
-        if (! $book || $book->quantity = 0) {
+        if (! $book || $book->quantity <= 0) {
             return response()->json([
                 'message' => 'Book is currently unavailable',
             ], 404);
         }
-        $alreadyHas = $request->user()->loans()->where('book_id', $book->id)->whereNull('returned_at')->exists();
+        $user = $request->user();
+        $alreadyHas = $user->loans()->where('book_id', $book->id)->whereNull('returned_at')->exists();
 
         if ($alreadyHas) {
             return response()->json(['message' => 'You already have an active loan for this book'], 422);
@@ -32,22 +33,20 @@ class LoanController extends Controller
 
         $status = Status::where('name', 'borrowed')->first();
 
-        $results = DB::transaction(function () use ($book, $request, $status) {
+        $result = DB::transaction(function () use ($book, $user, $status) {
             $book->decrement('quantity');
-            $loan = Loan::create([
-                'user_id' => $request->user()->id,
+            $loan = $user->loans()->create([
                 'book_id' => $book->id,
                 'borrowed_at' => now(),
                 'due_date' => now()->addMonth(),
+                'status_id' => $status->id,
             ]);
-            $loan->status()->attach($status->id);
             return response()->json([
                 'message' => 'Book borrowed',
-                'borrowed_book' => $loan->load($book),
-            201]);
+                'borrowed_book' => $loan->load('book'),
+            ], 201);
         });
-        
-        return $results;
+        return $result;
     }
 
     public function return()
