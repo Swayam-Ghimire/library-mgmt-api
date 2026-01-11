@@ -21,12 +21,14 @@ Route::prefix('admin')->controller(AdminController::class)->group(function () {
 });
 
 // Routes for member
-Route::get('/user/profile', [UserController::class, 'profile']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-Route::post('/loans/{book}/borrow', [LoanController::class, 'borrow'])->middleware('auth:sanctum');
-Route::post('/loans/{loan}/return', [LoanController::class, 'return']);
-Route::get('/user/loans', [LoanController::class, 'loans']);
-Route::get('/user/fines', [FineController::class, 'fines']);
+Route::middleware('auth:sanctum')->group(function() {
+    Route::get('/user/profile', [UserController::class, 'profile']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/loans/{book}/borrow', [LoanController::class, 'borrow']);
+    Route::post('/loans/{loan}/return', [LoanController::class, 'return']);
+    Route::get('/user/loans', [LoanController::class, 'loans']);
+    Route::get('/user/fines', [FineController::class, 'fines']);
+});
 
 
 // Common routes

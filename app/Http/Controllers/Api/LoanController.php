@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LoanResource;
 use App\Models\Book;
 use App\Models\Loan;
 use App\Models\Status;
@@ -11,9 +12,12 @@ use Illuminate\Support\Facades\DB;
 
 class LoanController extends Controller
 {
-    public function loans()
+    public function loans(Request $request)
     {
         // View user Borrowing history
+        $user = $request->user();
+        $loan = $user->loans()->with(['book', 'status'])->paginate(10);
+        return LoanResource::collection($loan);
     }
 
     public function borrow(Book $book, Request $request)
@@ -25,15 +29,13 @@ class LoanController extends Controller
             ], 404);
         }
         $user = $request->user();
-        $alreadyHas = $user->loans()->where('book_id', $book->id)->whereNull('returned_at')->exists();
-
-        if ($alreadyHas) {
+        if (Loan::alreadyHas($user, $book)) {
             return response()->json(['message' => 'You already have an active loan for this book'], 422);
         }
 
         $status = Status::where('name', 'borrowed')->first();
 
-        $result = DB::transaction(function () use ($book, $user, $status) {
+        return DB::transaction(function () use ($book, $user, $status) {
             $book->decrement('quantity');
             $loan = $user->loans()->create([
                 'book_id' => $book->id,
@@ -41,16 +43,13 @@ class LoanController extends Controller
                 'due_date' => now()->addMonth(),
                 'status_id' => $status->id,
             ]);
-            return response()->json([
-                'message' => 'Book borrowed',
-                'borrowed_book' => $loan->load('book'),
-            ], 201);
+            return new LoanResource($loan->load(['book', 'status']));
         });
-        return $result;
     }
 
     public function return()
     {
         // Return the borrowed book or delete loan and +1 quantity in the books table record
+
     }
 }
