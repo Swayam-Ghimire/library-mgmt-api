@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Loan extends Model
 {
-    protected $fillable = ['user_id', 'book_id', 'borrowed_at', 'due_date', 'returned_at', 'status_id'];
+    protected $fillable = ['user_id', 'book_id', 'borrowed_at', 'due_date', 'returned_date', 'status_id'];
 
     protected $hidden = ['created_at', 'updated_at'];
 
     protected $casts = [
         'borrowed_at' => 'datetime',
         'due_date' => 'datetime',
-        'returned_at' => 'datetime',
+        'returned_date' => 'datetime',
     ];
 
     public function status(): BelongsTo

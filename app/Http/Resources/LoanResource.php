@@ -19,10 +19,8 @@ class LoanResource extends JsonResource
             // Format dates into a readable string
             'borrowed_on' => $this->borrowed_at?->format('Y-m-d'),
             'due_on' => $this->due_date?->format('Y-m-d'),
-            'returned_on' => $this->returned_at?->format('Y-m-d') ?? 'Not returned yet',
-            // Show the status name instead of the status_id
+            'returned_on' => $this->returned_date?->format('Y-m-d') ?? 'Not returned yet',
             'status' => $this->status->name,
-            'is_overdue' => $this->due_date < now() && !$this->returned_at,
         ];
     }
 }
