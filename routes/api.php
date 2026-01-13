@@ -9,7 +9,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 // Routes for admin
-Route::prefix('admin')->controller(AdminController::class)->group(function () {
+Route::prefix('admin')->controller(AdminController::class)->middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::post('/books/add', 'create');
     Route::delete('/books/{book}', 'delete');
     Route::put('/books/edit/{book:isbn}', 'update');

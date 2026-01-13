@@ -47,6 +47,5 @@ class Loan extends Model
                     ->orWhere('returned_date', '');
             })
             ->exists();
-
     }
 }
