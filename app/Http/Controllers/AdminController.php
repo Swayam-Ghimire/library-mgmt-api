@@ -15,8 +15,6 @@ use App\Models\Fine;
 use App\Models\Loan;
 use App\Models\Status;
 use App\Models\User;
-use Dotenv\Validator;
-use Symfony\Component\HttpFoundation\Request;
 
 class AdminController extends Controller
 {
@@ -170,7 +168,7 @@ class AdminController extends Controller
             'id' => $fine->id,
             'original_amount' => $fine->getOriginal('amount'),
             'paid_amount' => $fine->amount,
-            'paid_at' => $fine->paid_at->format('Y-m-d'),
+            'paid_at' => $fine->paid_at?->format('Y-m-d'),
         ],
     ], 200);
 }
