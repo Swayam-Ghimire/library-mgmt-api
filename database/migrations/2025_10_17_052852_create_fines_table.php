@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('loan_id')->constrained('loans')->onDelete('cascade');
             $table->bigInteger('amount');
             $table->date('issued_at');
-            $table->date('paid_at')->default(null);
+            $table->date('paid_at')->nullable();
             $table->timestamps();
         });
     }

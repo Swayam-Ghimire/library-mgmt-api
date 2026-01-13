@@ -25,6 +25,7 @@ class UserProfileResource extends JsonResource
                             'book' => $loan->book->title ?? 'Unknown Book',
                             'due_date' => $loan->due_date?->format('M d'),
                             'status' => $loan->due_date < now() ? 'Overdue' : 'Due',
+                            'fine' => $loan->fine ? $loan->fine->amount : 0,
                         ];
                     })->values();
             }, []),

@@ -21,6 +21,7 @@ class LoanResource extends JsonResource
             'due_on' => $this->due_date?->format('Y-m-d'),
             'returned_on' => $this->returned_date?->format('Y-m-d') ?? 'Not returned yet',
             'status' => $this->status->name,
+            'fine' => $this->fine ? $this->fine->amount : 0,
         ];
     }
 }
