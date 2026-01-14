@@ -11,6 +11,6 @@ class Role extends Model
     /*  a property that specifies which attributes (database columns) should not be included when the model is converted to an array or JSON */
 
     public function users() {
-        $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class);
     }
 }
