@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/loans/{loan}/return', [LoanController::class, 'return']);
     Route::get('/user/loans', [LoanController::class, 'loans']);
     Route::get('/user/fines', [FineController::class, 'fines']);
-});
+    });
 
 
 // Common routes
